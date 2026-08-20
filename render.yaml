@@ -49,9 +49,10 @@ services:
     rootDir: frontend
     plan: free
     # nginx in the container listens on $PORT and proxies /api to the backend URL.
+    # Use property: url (full https:// URL) — proxy_pass rejects a bare hostname.
     envVars:
       - key: BACKEND_URL
         fromService:
           type: web
           name: settled-backend
-          property: host  # e.g. https://settled-backend.onrender.com
+          property: url  # e.g. https://settled-backend.onrender.com
