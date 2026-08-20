@@ -13,12 +13,14 @@ services:
     plan: free
     healthCheckPath: /actuator/health
     envVars:
-      # Filled automatically from the managed database below.
-      # The connection string is postgres://... and is converted to a JDBC URL at boot.
+      # Supabase Postgres connection string (postgresql://... or postgres://...).
+      # Paste the full connection string from Supabase > Connect > "Connection string".
+      # Use the "Pooler" (transaction mode) connection string for best results.
+      # The app converts it to a JDBC URL and extracts user/password at boot.
+      # NOTE: keep this secret; never commit the password to the repo.
       - key: DATABASE_URL
-        fromDatabase:
-          name: settled-db
-          property: connectionString
+        sync: false
+        value: YOUR_SUPABASE_CONNECTION_STRING
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRATION_MS
@@ -54,9 +56,3 @@ services:
           type: web
           name: settled-backend
           property: host  # e.g. https://settled-backend.onrender.com
-
-databases:
-  - name: settled-db
-    databaseName: settled
-    user: settled
-    plan: free # NOTE: Render free Postgres expires after 30 days and sleeps when idle.

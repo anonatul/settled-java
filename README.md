@@ -70,7 +70,7 @@ To stop: `docker compose down` (add `-v` to wipe the database and uploaded files
 
 The project includes a Render blueprint (`render.yaml`) and a step-by-step guide in
 [`DEPLOYMENT.md`](DEPLOYMENT.md). It deploys as two Docker web services (frontend nginx + backend Spring Boot),
-Render managed PostgreSQL, and Upstash free Redis for caching and rate limiting.
+a Supabase Postgres database, and Upstash free Redis for caching and rate limiting.
 
 ## Running in development
 
