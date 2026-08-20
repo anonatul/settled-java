@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: settled
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/settled}
+    username: ${DB_USERNAME:settled}
+    password: ${DB_PASSWORD:settled}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  cache:
+    type: redis
+    redis:
+      time-to-live: 10m
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:settled-dev-secret-key-change-me-in-production-0123456789abcdef}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  upload-dir: ${UPLOAD_DIR:./uploads}
+  rate-limit:
+    login-max: 5
+    login-window-seconds: 60
+    claim-max: 10
+    claim-window-minutes: 60
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+
+logging:
+  level:
+    com.settled: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

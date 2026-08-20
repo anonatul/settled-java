@@ -1,0 +1,29 @@
+# Java
+backend/target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.code-workspace
+
+# OS
+.DS_Store
+
+# Env
+.env
+*.local
+
+# Uploads (runtime files)
+backend/uploads/
+
+# Logs
+*.log

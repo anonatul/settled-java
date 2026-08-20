@@ -1,0 +1,15 @@
+package com.settled.domain.enums;
+
+public enum AuditAction {
+    USER_REGISTERED,
+    LOGIN,
+    POLICY_CREATED,
+    CLAIM_SUBMITTED,
+    CLAIM_ASSIGNED,
+    CLAIM_STATUS_CHANGED,
+    CLAIM_APPROVED,
+    CLAIM_REJECTED,
+    CLAIM_SETTLED,
+    DOCUMENT_UPLOADED,
+    USER_ROLE_CHANGED
+}
