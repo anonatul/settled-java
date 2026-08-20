@@ -18,9 +18,10 @@ services:
       # Use the "Pooler" (transaction mode) connection string for best results.
       # The app converts it to a JDBC URL and extracts user/password at boot.
       # NOTE: keep this secret; never commit the password to the repo.
+      # After the blueprint is created, set DATABASE_URL in the backend's
+      # Environment tab (Dashboard > settled-backend > Environment).
       - key: DATABASE_URL
         sync: false
-        value: YOUR_SUPABASE_CONNECTION_STRING
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRATION_MS
@@ -31,17 +32,15 @@ services:
       - key: UPLOAD_DIR
         value: /app/uploads
       # ---- Upstash Redis (create a free database at https://console.upstash.com) ----
+      # Set REDIS_HOST and REDIS_PASSWORD in the backend's Environment tab
+      # after the blueprint is created (they are secrets).
       - key: REDIS_HOST
         sync: false
-        value: YOUR_UPSTASH_HOST  # e.g. decent-dove-12345.upstash.io
       - key: REDIS_PORT
-        sync: false
         value: "6379"
       - key: REDIS_PASSWORD
         sync: false
-        value: YOUR_UPSTASH_PASSWORD
       - key: REDIS_SSL
-        sync: false
         value: "true"
 
   - type: web
