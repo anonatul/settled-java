@@ -48,11 +48,10 @@ services:
     runtime: docker
     rootDir: frontend
     plan: free
-    # nginx in the container listens on $PORT and proxies /api to the backend URL.
-    # property: host returns the bare hostname; the nginx template adds http://.
+    # nginx in the container listens on $PORT and proxies /api to the backend.
+    # BACKEND_URL must be the FULL backend URL with scheme (e.g. https://settled-backend.onrender.com).
+    # Render has no fromService property for a full URL (host is the internal
+    # service name), so set it manually after the blueprint is created.
     envVars:
       - key: BACKEND_URL
-        fromService:
-          type: web
-          name: settled-backend
-          property: host  # e.g. settled-backend.onrender.com (scheme added by nginx template)
+        sync: false

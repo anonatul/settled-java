@@ -62,7 +62,7 @@ services:
     container_name: settled-frontend
     environment:
       PORT: 80
-      BACKEND_URL: backend:8080
+      BACKEND_URL: http://backend:8080
     ports:
       - "${FRONTEND_PORT:-3000}:80"
     depends_on:

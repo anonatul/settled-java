@@ -22,7 +22,10 @@ This project is configured to deploy to Render via a [Blueprint](./render.yaml) 
 5. After it creates the services, open **settled-backend → Environment** and set:
    - `DATABASE_URL` = your full Supabase Pooler connection string (keeps the password out of the repo)
    - the four Upstash values (`REDIS_HOST`, `REDIS_PASSWORD`, keep `REDIS_PORT=6379` and `REDIS_SSL=true`).
-6. **Deploy** the backend (and frontend). Open the frontend URL, e.g. `https://settled-frontend.onrender.com`.
+6. Open **settled-frontend → Environment** and set `BACKEND_URL` to the **full backend URL with scheme**,
+   e.g. `https://settled-backend.onrender.com` (Render's blueprint cannot auto-fill a full URL — its
+   `fromService` `host` property only yields the internal service name, which nginx cannot resolve).
+7. **Deploy** the backend (and frontend). Open the frontend URL, e.g. `https://settled-frontend.onrender.com`.
 
 ## Option B — Manual
 
