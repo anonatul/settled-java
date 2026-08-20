@@ -1,0 +1,62 @@
+# Render Blueprint — deploys the full Settled stack to Render.
+# See DEPLOYMENT.md for the manual setup of Redis (Upstash) and secrets.
+#
+# Usage: push to GitHub, then in Render Dashboard:
+#   New > Blueprint > connect the repository (settled-java) > Apply.
+# Fill in the Upstash values and secrets marked below after the blueprint is created.
+
+services:
+  - type: web
+    name: settled-backend
+    runtime: docker
+    rootDir: backend
+    plan: free
+    healthCheckPath: /actuator/health
+    envVars:
+      # Filled automatically from the managed database below.
+      # The connection string is postgres://... and is converted to a JDBC URL at boot.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: settled-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRATION_MS
+        value: 86400000
+      # Uploaded claim documents are stored on the container's ephemeral disk
+      # (they are lost on redeploy on the free plan). Upgrade to a paid plan +
+      # persistent disk mounted at /app/uploads to persist them.
+      - key: UPLOAD_DIR
+        value: /app/uploads
+      # ---- Upstash Redis (create a free database at https://console.upstash.com) ----
+      - key: REDIS_HOST
+        sync: false
+        value: YOUR_UPSTASH_HOST  # e.g. decent-dove-12345.upstash.io
+      - key: REDIS_PORT
+        sync: false
+        value: "6379"
+      - key: REDIS_PASSWORD
+        sync: false
+        value: YOUR_UPSTASH_PASSWORD
+      - key: REDIS_SSL
+        sync: false
+        value: "true"
+
+  - type: web
+    name: settled-frontend
+    runtime: docker
+    rootDir: frontend
+    plan: free
+    # nginx in the container listens on $PORT and proxies /api to the backend URL.
+    envVars:
+      - key: BACKEND_URL
+        fromService:
+          type: web
+          name: settled-backend
+          property: host  # e.g. https://settled-backend.onrender.com
+
+databases:
+  - name: settled-db
+    databaseName: settled
+    user: settled
+    plan: free # NOTE: Render free Postgres expires after 30 days and sleeps when idle.

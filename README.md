@@ -66,6 +66,12 @@ Then open **http://localhost:3001** and sign in with any demo account.
 
 To stop: `docker compose down` (add `-v` to wipe the database and uploaded files).
 
+## Deploying to Render
+
+The project includes a Render blueprint (`render.yaml`) and a step-by-step guide in
+[`DEPLOYMENT.md`](DEPLOYMENT.md). It deploys as two Docker web services (frontend nginx + backend Spring Boot),
+Render managed PostgreSQL, and Upstash free Redis for caching and rate limiting.
+
 ## Running in development
 
 ### Backend
@@ -142,7 +148,7 @@ frontend/
   src/pages/      # customer/ officer/ admin/ auth/
   src/components/ # layout, UI kit (Button, Card, Modal, Toast…), charts, timeline
   src/lib/        # axios client, formatters
-  nginx.conf      # SPA fallback + /api proxy
+  nginx.conf.template # SPA fallback + /api proxy (PORT + BACKEND_URL substituted at boot)
 docs/screenshots/ # captured UI screenshots
 ```
 
